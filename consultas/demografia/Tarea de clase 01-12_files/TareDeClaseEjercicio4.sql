@@ -1,5 +1,11 @@
-select * 
-from demografia_basica; 
+
+
+--sum hombres
+select sum (hombres)
+from demografia_basica
+where anio between  (2002 and 2003)
+	and provincia in ('Cáceres','Badajoz')
+
 
 select hombres
 from demografia_basica
@@ -10,7 +16,7 @@ from demografia_basica
 where (hombres >= 600000 
 	or mujeres >= 600000 )
 and anio between 2014 and 2019 
-order by (hombres,mujeres) desc;
+order by provincia desc,anio desc;
 
 select provincia,rango_edad 
 from demografia_avanzada
@@ -18,4 +24,4 @@ where edad_menor >=20
 and edad_mayor <=29 
 and sexo='M'
 and anio=2018
-and (provincia in ('Sevilla','Córdoba','Málaga','Granada','Jaén','Alemría','Huelva'))
+and (provincia in ('Sevilla','Córdoba','Málaga','Granada','Jaén','Alemría','Huelva','Cadíz'))
