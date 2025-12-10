@@ -24,13 +24,14 @@ where (hombres >=600000
 	and (anio-5) 
 order by provincia desc, anio asc;
 
-select provincia,rango_edad 
+select *
 from demografia_avanzada
 where sexo = 'M' 
 	and anio = 2018
 	and edad_mayor<=29
 	and edad_menor>=20
-	and provincia in ('Sevilla','Córdoba','Málaga','Granada','Jaén','Alemería','Huelva','Cadíz');
+	and provincia in ('Sevilla','Córdoba','Málaga','Granada','Jaén','Alemería','Huelva','Cadíz')
+order by numero_habitantes asc; 
 
 select anio, numero_habitantes, rango_edad 
 from demografia_avanzada
