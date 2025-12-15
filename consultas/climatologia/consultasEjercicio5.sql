@@ -1,3 +1,4 @@
+
 select * 
 from climatologia;
 
@@ -72,13 +73,12 @@ con una precipitación total de más de 50 litros por metro cuadrado,
 y donde el % de la precipitación caída de 6 a 12 horas sea entre el 60 y el 80%. 
 Ordena la salida por precipitación total descendente, y fecha ascendente*/
 
-select * 
+---Estp es pregunta de examen
+select estacion, provincia,precipitacion_total,precipitacion_6_a_12
 from climatologia
 where precipitacion_total >50 
- 	and (case 
-	 	when precipitacion_total = 0 then  0.0
-		 else (precipitacion_6_a_12::numeric / precipitacion_total)
-	end 
+ 	and  precipitacion_total = 0 then  0.0
+	 round((precipitacion_6_a_12::numeric / precipitacion_total)*100,2)
 	between 0.60 and 0.80)
 order by precipitacion_total desc, fecha asc;
 
