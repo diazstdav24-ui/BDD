@@ -1,49 +1,61 @@
-select 
-	coalesce(
-        ROUND(precio * ((100.0 - descuento) / 100.0), 2),
-        precio) as "Precio final",
-    coalesce(
-        ROUND((precio * (descuento / 100.0), 2),
-        0.0) ) as "descuento"
+
+select * 
+from vuelos;
+--Ejercicio1
+select *,
+	COALESCE (
+		round(precio - ((precio * descuento ) /100 ),2),
+		precio) as "Precio Final", 
+	COALESCE (
+		round (((precio*descuento)/100),2), 0
+	) as "Descuento"
 from vuelos
-where desde in ('Sevilla','Málaga')
-	and hasta in ('Madrid','Barcelona')
-	and salida::text ilike '2019-12%'
+where desde in('Sevilla','Málaga')
+	and salida::text ilike '2019-%'
+	and hasta in ('Barcelona','Madrid')
 	and precio >= 80;
- 
 
-SELECT id,
-    desde,
-    hasta,
-    precio,
- UPPER(SUBSTRING(desde, 1, 3)) || '-' ||
-UPPER(SUBSTRING(hasta, 1, 3)) || '-' ||
-FROM
-    vuelos
-WHERE
-	salida::text ilike '2020-%' 
-    AND desde IN ('Madrid', 'Barcelona')  
-    AND hasta IN ('París', 'Londres')    
-    AND descuento IS NULL;
+--Ejercicio2
+select 
+		upper(substring(desde,1,3)) || '-' ||
+		upper(substring(hasta,1,3)) || '-' ||
+		lpad ((id::text),4,'0') as codigo_ruta
+from vuelos;
+--Ejercicio3
+select *,
+	COALESCE (
+		round(precio - ((precio * descuento ) /100 ),2),
+		precio) as "Precio Final", 
+	case 
+		when descuento is null then 'sin_descuento'
+		when descuento  >= 30 then 'descuento_alto'
+		else 'descuento_bajo'
+	end as tipo_descuento
+from vuelos
+where 
+	salida::text ilike '2020-03-%'
+	and 
+		(desde in ('Londres','París')
+		or hasta in ('Sevilla,Málaga'))
+	and precio between 60 and 300
+	and (descuento is not null 
+		or precio > 200);  
+
+--Ejercicio4
+
+select 
+	count (*) as "Total_vuelos",
+	max(precio) as precio_maximo,
+	min(precio) as precio_minimo,
+	round (avg(precio),2) as precio_medio,
+	round (avg(COALESCE(descuento,0)),2) as descuento_medio
+from vuelos
+where 
+	salida::text ilike '2020-%'
+	and desde in ('Madrid','Barcelona','Sevilla','Málaga')
+	and precio between 60 and 500 
+	and desde <> hasta;
 
 
-
-SELECT *,
-    CASE
-        WHEN descuento IS NULL THEN 'SIN_DESCUENTO'
-        WHEN descuento >= 30 THEN 'DESCUENTO_ALTO'
-        ELSE 'DESCUENTO_BAJO'
-    END AS tipo_descuento,
-   coalesce(
-        ROUND(precio * ((100.0 - descuento) / 100.0), 2)
-FROM
-    vuelos
-WHERE
-    salida::text BETWEEN '2020-01-01' AND '2020-12-31'
-    AND (desde IN ('Londres', 'París')
-        OR hasta IN ('Sevilla', 'Málaga'))
-    AND precio BETWEEN 60 AND 300
-    AND (descuento IS NOT NULL
-        OR precio > 200);
 
 
