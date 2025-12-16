@@ -56,3 +56,6 @@ where desde ilike 'Berlín'
 	and (llegada::text ilike '2020-10-%'
 		or llegada::text ilike '2020-11-%'
 		or llegada::text ilike '2020-12-%');
+
+
+
