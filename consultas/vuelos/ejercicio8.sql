@@ -4,7 +4,7 @@ from vuelos;
 --Ejercicio1
 select *,
 	COALESCE (
-		round(precio - ((precio * descuento ) /100 ),2),
+		round(precio - (1 * (descuento  /100) ),2), --Otra forma de hacerlo
 		precio) as "Precio Final", 
 	COALESCE (
 		round (((precio*descuento)/100),2), 0
@@ -17,10 +17,23 @@ where desde in('Sevilla','Málaga')
 
 --Ejercicio2
 select 
+	id,
+	desde, 
+	hasta,
+	precio,
+	 upper (concat(
+		(substring(desde,1,3)), '-', 
+		(substring(hasta,1,3)) ,'-', 
+		lpad ((id::text),4,'0')
+		)
+	) as codigo_ruta
+from vuelos;
+	)
+/*
 		upper(substring(desde,1,3)) || '-' ||
 		upper(substring(hasta,1,3)) || '-' ||
 		lpad ((id::text),4,'0') as codigo_ruta
-from vuelos;
+from vuelos;*/
 --Ejercicio3
 select *,
 	COALESCE (
@@ -43,19 +56,25 @@ where
 
 --Ejercicio4
 
-select 
-	count (*) as "Total_vuelos",
+select
+	count(*) as "Total_vuelos",
 	max(precio) as precio_maximo,
 	min(precio) as precio_minimo,
-	round (avg(precio),2) as precio_medio,
-	round (avg(COALESCE(descuento,0)),2) as descuento_medio
-from vuelos
-where 
+	round(avg(precio), 2) as precio_medio,
+	round(coalesce(avg(descuento),0),2) as descuento_medio --Cuando usamos una función de grupo no podemos poner otra funcion 
+															--a no ser que sea una función de grupo 
+from
+	vuelos
+where
 	salida::text ilike '2020-%'
-	and desde in ('Madrid','Barcelona','Sevilla','Málaga')
-	and precio between 60 and 500 
-	and desde <> hasta;
+	and desde in ('Madrid', 'Barcelona', 'Sevilla', 'Málaga')
+	and precio between 60 and 500
+	and desde != hasta;
 
+
+
+
+--El right (left(llegada::text,7),2) = '10' --> esto hace que seleccione 7 caracteres qu
 
 
 

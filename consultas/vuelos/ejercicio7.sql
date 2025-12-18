@@ -39,7 +39,7 @@ where desde in ('Sevila','Málaga')
 
 ------------------------------
 --Resultado corregido
-select *, 	
+select *,
 	COALESCE (
 		round(precio - ((precio * descuento ) /100 ),2),
 		precio) as "Precio Descuento"
