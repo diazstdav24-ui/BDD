@@ -56,6 +56,25 @@ where
 	and precio between 60 and 500 
 	and desde <> hasta;
 
+	
+--ejercicio5
+select 
+	id,
+	upper (desde) as "desde", 
+	upper (hasta) as "hasta",
+	round (precio,2)
+	ABS(precio - ROUND(precio, -1)) AS "Diferencia Absoluta"
+from vuelos
+where 
+	salida::text ilike '2019-%'
+	and (hasta ilike 'B%'
+		or hasta ilike 'a%')
+	and COALESCE (
+				(descuento >= 10),
+				'0'
+					)
+	and precio<200; 
+
 
 
 
