@@ -29,20 +29,81 @@ from employees
 NATURAL join departments; 
 
 --Join Using, cuando clave externa y clave primaria se llamen igual 
-select first_name, last_name, department_name,job_titl 
+select first_name, last_name, department_name,job_title 
 from employees e JOIN departments d 
 				using (department_id)
 				join jobs j
 				using (job_id)
 where e.department_id = d.department_id
 	and j.job_id = e.job_id
-	and (d.department_name = 'Administration'
-	or d.department_name = 'IT');
+	and (d.department_name ilike'Administration'
+	or d.department_name ilike 'IT');
 
 select first_name, last_name 
 from employees join departments using (department_id);
 				
---Join on cuando no se llamen igual 
+--Join on cuando no se llamen igual, esta base datos no tiene claves priamria y claves externas diferentes pero vamos a simularlo 
+
+select first_name, last_name, department_name,job_title 
+from employees e JOIN departments d 
+				on (e.employee_id= d.department_id)
+				join jobs j
+				on (e.employee_id = j.job_id)
+where 
+	and (d.department_name ilike'Administration'
+	or d.department_name ilike 'IT');
+
+--Se puede mezclar Join using con Join on
+
+/* 
+	Estrategia 1 : Usar siempre Join on 
+	Estrategia 2:
+				-Siempre que pueda, Join USING (fk igual a pk)
+				-Cuando no se pueda, Join on (fk no igual a pk) */
 
 
 
+/* 
+Seleccionar el nombre y apellidos, incluyendo el nombre 
+de la región, para aquellos empleados cuya región sea Europe o America */
+
+select * 
+from regions;
+
+select *
+from countries 
+where countries.country_name ilike 'United Kingdom'
+
+
+select first_name, last_name, region_name
+	from employees e join departments  using (department_id) 
+					join locations  using (location_id)
+					join countries using (country_id)
+					join regions  using (region_id)
+where  
+	region_name in ('Americas','Europe');
+
+
+--Ejercicio 2
+select first_name, last_name, email
+	from employees 
+				join departments d using (department_id)
+				join locations l using (location_id)
+				join countries  c using (country_id)
+where  c.country_name ilike 'United Kingdom';
+
+--Ejercicio3
+
+select distinct r.region_name --El distinct se usa para ver el nombre de las regiones sin que este 20 veces repetido 
+from employees 
+				join departments d using (department_id)
+				join locations l using (location_id)
+				join countries  c using (country_id)
+				join regions r USING (region_id)
+where employees.salary < 10000;
+
+
+
+
+
+	
