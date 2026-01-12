@@ -102,8 +102,35 @@ from employees
 				join regions r USING (region_id)
 where employees.salary < 10000;
 
+-------------------------------------------------------------
+--Esto de aqui es para actualizar la tabla para que uno de los empleados sea nulo (mas especificamente el empleado 100)
+Select count (*)
+from employees; 
 
+select * 
+from employees join departments d using (department_id);
 
+update employees
+set department_id = null 
+where employee_id = 100;
 
+insert into departments
+values (12,'IA');
 
-	
+--Join Lateral (Externo) *Los otros eran internos(Inner)*
+--Como poco en un Join externo salen las mismas filas, solo que puede añadir algunas filas adicionales no relacionadas
+
+select * 
+from employees left join departments using (department_id); --Esto hace que los valores nulos de la tabla a la izquierda de la palabra salgan, hace que aparezcan los empleados que no tengan depto
+
+select * 
+from employees right join departments using (department_id); --Hace que aparezcan los depto que no tienen empleados
+
+select * 
+from employees full join departments using (department_id); --Hace que aparezcan los dos
+
+--Ejercicio1, Mostrar el nombre de los depto que no tengan empleados: 
+select d.department_name
+from employees e right join departments d using (department_id)
+where e.employee_id is null;
+--Aqui es depende de donde tienes puesto el lado, aqui por ejemplo he decidido ponerlo en right pero podría tambien ser left si hago la consulta al reves
