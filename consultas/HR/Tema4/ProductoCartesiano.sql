@@ -1,3 +1,4 @@
+
 --Esta es la forma de hacerla inicialmente en SQL (SQL'92)
 --Comnsulta de varías tablas
 select employees.first_name, employees.last_name, departments.department_name
