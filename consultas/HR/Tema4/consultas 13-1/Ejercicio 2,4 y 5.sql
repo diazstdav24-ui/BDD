@@ -1,21 +1,29 @@
---Ejercicio5 
-select estacion, fecha, precipitacion_total
-from climatologia
-where fecha /*between make_date (2019,4,1)
-			and make_date(2019,4,30)*/
-			--Otra forma 
-			--to_char (fecha,'YYY/MM') = '04/2019'
-		and provincia = 'Sevilla'
-		
-order by estacion asc;
 
+
+--2.
+/*Seleccionar el nombre de aquellos departamentos en los que trabaja un empleado que fue contratado a lo largo del año 1993*/
 select * 
-from climatologia 
-where 
-	provincia in ('Cuenca', 'Guadalajara')
-	and fecha between make_date(2019,3,21)
-					and make_date(2019,6,20)
-order by fecha;
+from employees;
 
---Para repasar se pueden coger todos los ejercicios del boletín anterior (rehacer los ejercicios)
---¿Como podríamos transformar esta consulta para que fuera obtener los datos de cualquier año?
+select d.department_name
+from employees e join departments d
+				using (department_id)
+where e.hire_date::text like '1993-%';
+
+--4 Seleccionar el nombre de aquellos empleados cuyo jefe directo tenga un apellido que empiece por D, H o S.
+
+
+select emple.first_name, emple.last_name, manager.last_name
+from employees emple join employees manager
+					on	(emple.manager_id = manager.employee_id) --Es una relación reflexiva asi que se hace asi
+where manager.last_name ilike 'H%'
+	or manager.last_name ilike 'D%'
+	or manager.last_name ilike 'S';
+--5.Seleccionar el número de familiares (dependents) que son hijos de algún miembro de los departamentos de Marketing, Administration e IT.
+select count (*) 
+from dependents d join employees e 
+				using (employee_id)
+				join departments ds 
+				using (department_id)
+where ds.department_name in ('Marketing','Administration','IT')
+					
