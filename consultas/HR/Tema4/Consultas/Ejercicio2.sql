@@ -11,6 +11,12 @@ from employees emple join departments d using (department_id)
 				join employees man on (man.employee_id= emple.manager_id)
 where d.department_name ilike 'Administration';
 
+--Es mejor hacer esta forma porque de esta forma garanatizo que el filtrado entre tablas este bien
+select man.first_name, man.last_name 
+from employees emple join departments d on (emple.department_id = d.department_id)
+				join employees man on (man.employee_id= emple.manager_id)
+where d.department_name ilike 'Administration';
+
 --Seleccionar el COUNTRY_NAME donde tiene localización el departamento de Public Relations
 
 select country_name
@@ -40,10 +46,11 @@ from dependents ds join employees e using (employee_id)
 					join countries c using (country_id)
 					join regions r using (region_id)
 where r.region_name ilike 'Americas'
+	and relationship = 'Child'
 order by c.country_name asc;
 
 --Seleccionar el nombre del empleado, el apellido del jefe y el titulo de trabajo, donde el salario del empleado sea mayor de 5000
---Su titulo empiece por S. Ordenar de mayor a menos el salario del empleado
+--Su titulo empiece por S. Ordenar de mayor a menor el salario del empleado
 
 select emple.first_name as Nombre_Empleado,
 	j.job_title as titulo, 
