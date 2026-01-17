@@ -49,8 +49,8 @@ where r.region_name ilike 'Americas'
 	and relationship = 'Child'
 order by c.country_name asc;
 
---Seleccionar el nombre del empleado, el apellido del jefe y el titulo de trabajo, donde el salario del empleado sea mayor de 5000
---Su titulo empiece por S. Ordenar de mayor a menor el salario del empleado
+--Seleccionar el nombre del empleado, el apellido del jefe y el titulo de trabajo, donde el salario del 
+--empleado sea mayor de 5000Su titulo empiece por S. Ordenar de mayor a menor el salario del empleado
 
 select emple.first_name as Nombre_Empleado,
 	j.job_title as titulo, 
