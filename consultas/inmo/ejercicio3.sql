@@ -41,7 +41,7 @@ and t.nombre in ('Oficina','Local','Suelo');
 --4.Seleccionar el nombre de aquellos compradores de Casa o Piso en las provincias de Jaén o Córdoba, 
 --donde el precio final de inmueble esté entre 150.000 y 200.000€, para aquellos inmuebles que han tardado entre 3 y 4 meses en venderse.
 
-select c.nombre 
+select c.nombre
 from comprador c join operacion o using (id_cliente)
 			   join inmueble i using ( id_inmueble)
 			   join tipo t on (i.tipo_inmueble = t.id_tipo)
@@ -63,4 +63,31 @@ where nombre in ('Casa','Piso')
 	and superficie <100 
 	and extract ( year from age(fecha_operacion,fecha_alta)) >= 1;
 
+--6.Selecciona el alquiler de vivienda (Casa o Piso) más caro realizado en 
+--Julio o Agosto de cualquier año en la provincia de Huelva.
+select t.nombre, precio_final, fecha_operacion
+from tipo t join inmueble on (t.id_tipo = tipo_inmueble)
+			join operacion using ( id_inmueble)
+where t.nombre in ('Casa','Piso')
+	  and extract(month from fecha_operacion) in ('07','08')
+	  and provincia ilike 'Huelva'
+order by precio_final desc 
+limit 1;
+
+/*Columnas a mostrar: El nombre del tipo de inmueble, la provincia, el precio final y una columna calculada llamada "Meses_en_Venta".
+
+Fechas: Filtra solo las operaciones que se firmaron en el primer trimestre (Enero, Febrero, Marzo) de cualquier año.
+
+Tablas: Necesitarás inmueble, operacion y tipo.
+
+Join Obligatorio: Recuerda que la tabla tipo no se une igual que las demás.
+
+Orden: Ordena los resultados para ver primero los que se vendieron más rápido (menor tiempo de venta).*/
+
+select t.nombre, provincia,precio_final, 
+	   age(fecha_operacion,fecha_alta) as "Meses_en_Venta"
+from tipo t join inmueble on (id_tipo = tipo_inmueble)
+		  join operacion using (id_inmueble)
+where extract( month from fecha_operacion) in ('01','02','03')
+order by "Meses_en_Venta" asc;
 
