@@ -1,3 +1,4 @@
+
 /*Seleccionar el COMPANY_NAME y CONTACT_NAME de aquellos CUSTOMERS que hayan hecho pedidos (ORDERS).
 */
 /*Seleccionar el COMPANY_NAME y CONTACT_NAME de aquellos CUSTOMERS que hayan hecho pedidos (ORDERS).
@@ -28,7 +29,7 @@ select distinct product_name
 from products join order_details using (product_id);
 
 /*Seleccionar la suma de los importes "cobrados" en todos los pedidos realizados en el año 96.*/
-select round(sum( od.unit_price * od.quantity)::numeric,2) as total_Venta96
+select round(sum( od.unit_price * discount * od.quantity)::numeric,2) as total_Venta96
 from order_details od join products p using (product_id) 
 					  join orders using (order_id)
 where to_char (orders.order_date,'yy') = '96'; 
@@ -49,7 +50,7 @@ la cantidad supere las 20 unidades, el producto no esté descatalogado y la cate
 'Beverages' o 'Confections', ordenando el resultado por el importe de mayor a menor.".*/
 
 select e.first_name, e.last_name, p.product_name,cat.category_name,
-round(( od.unit_price * od.quantity)::numeric,2) as "total"
+round(( od.unit_price   * od.quantity)::numeric,2) as "total"
 from employees e join orders ord using (employee_id)
 				 join order_details od using(order_id)
 				 join products p using (product_id)
