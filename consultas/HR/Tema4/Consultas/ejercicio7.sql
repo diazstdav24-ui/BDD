@@ -15,7 +15,7 @@ from employees e join departments using (department_id)
 				join countries  using (country_id)
 				join regions r using (region_id)
 where r.region_name ilike 'Asia'
-and departments.department_name ilike 'Administration'
+and departments.department_name ilike 'Administration';
 
 
 
