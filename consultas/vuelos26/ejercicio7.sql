@@ -8,7 +8,8 @@ where a_desde.ciudad in ('Sevilla','Madrid','Bilbao','Málaga','Barcelona')
 and  a_hasta.ciudad in ('París','Ámsterdam','Londres','Berlín','Nueva York','Ankara')
 and (extract (isodow from v.salida) between 1 and 4 
 		or (extract (isodow from v.salida) = 5
-		and extract(hour from v.salida) < 15));
+		and extract(hour from v.salida) < 15
+		and extract (isodow from v.salida) in (6,7)));
 		
 
 select * 

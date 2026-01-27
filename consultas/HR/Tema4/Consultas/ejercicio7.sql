@@ -9,8 +9,9 @@ where  extract(year from e.hire_date ) = 1997
 and  country_name ilike 'Belgium';
 
 /*(HR) Selecciona la media de salario máximo de los trabajadores de Administration en Asia*/
-select round(avg(salary),2)
+select coalesce(round(avg(max_salary),2),0)
 from employees e join departments using (department_id)
+				join jobs using (job_id)
 				join  locations using (location_id)
 				join countries  using (country_id)
 				join regions r using (region_id)

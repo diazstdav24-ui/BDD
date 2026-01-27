@@ -29,9 +29,11 @@ from comprador c join operacion o using (id_cliente)
 				 join tipo t on (t.id_tipo = i.tipo_inmueble)
 where t.nombre in ('Casa','Piso')
 and tipo_operacion ilike 'Venta'
-and  o.fecha_operacion between 
+and  /*o.fecha_operacion between 
 	i.fecha_alta + interval '35 days'
-	and i.fecha_alta + interval '45 days' 
+	and i.fecha_alta + interval '45 days'*/
+	age(o.fecha_operacion,i.fecha_alta) between '35 days'
+	and '45 days'
 and Provincia in ('Huelva','Almería','Sevilla')
 order by fecha_operacion desc; 
 
@@ -46,5 +48,5 @@ where (lower (t.nombre) not ilike 'Piso'
 			and lower (t.nombre)not ilike 'Casa')
 and i.provincia ilike '%n%'
 and i.tipo_operacion ilike 'Venta'
-and length(to_char(o.fecha_operacion,'TMmonth' )) between 5 and 7;
+and length(to_char(o.fecha_operacion,'FMmonth' )) between 5 and 7;
 
