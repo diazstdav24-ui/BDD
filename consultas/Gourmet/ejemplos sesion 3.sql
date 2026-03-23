@@ -11,7 +11,7 @@ from venta;
 --
 
 select e.id_empleado, nombre, 
-		apellido1, apellido2 , count(distinct id_producto),array_agg(fecha) --Si no usamos funciones como esta la fecha no se pueda saca
+		apellido1, apellido2 , count(distinct id_producto),array_agg(fecha) --Si no usamos funciones como esta la fecha no se pueda sacar
 from venta v join empleado e on (v.id_empleado = e.id_empleado)
 			join lineaventa lv on (lv.id_venta = v.id)
 group by e.id_empleado;
@@ -22,11 +22,11 @@ group by e.id_empleado;
 
 select c.id, c.nombre, c.apellidos, count(fecha)
 from cliente c join venta v on (v.id_cliente = c.id)
-group by c.id;
+group by c.nombre;
 
 --ejercicio 2 ¿Cuánto dinero ha gastado cada cliente?
 
-select c.id, c.nombre, c.apellidos, sum(precio_total)
+select   c.nombre, c.apellidos, sum(precio_total)
 from cliente c join venta on (id_cliente = c.id)
 group by c.id;
 
