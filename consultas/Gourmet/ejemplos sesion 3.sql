@@ -1,4 +1,4 @@
--- Aparezca el cliente el importe y lo que ha gastado 
+	-- Aparezca el cliente el importe y lo que ha gastado 
 
 select c.nombre, c.apellidos, email, sum(v.precio_total)
 from cliente c join venta v on (c.id = v.id)
@@ -38,10 +38,18 @@ group by id_producto;
 
 --ejercicio 4: ¿Cuántas ventas ha realizado cada empleado?
 
-select e.id_empleado cont
+select e.id_empleado, count(fecha) as "Ventas realizadas"
+from empleado e join venta using (id_empleado)
+group by id_empleado; 
 
+--ejercicio 5: ¿Cuál es el número medio de artículos por venta?
+
+select avg(numero_articulos)
+from venta; 
 
 
 select * 
-from lineaventa;
+from venta
+where id_empleado = 71; 
+
 

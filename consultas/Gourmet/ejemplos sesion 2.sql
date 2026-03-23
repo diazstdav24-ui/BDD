@@ -42,6 +42,7 @@ select c.nombre, c.apellidos, v.id_cliente, sum(lv.cantidad)
 from venta v join lineaventa lv on (lv.id_venta=v.id)
 			join cliente c on (v.id_cliente = c.id )
 group by c.nombre, c.apellidos, v.id_cliente; 
+
 --Lo que está en el select o esta en el group by o es una de la 5. Todo lo que este en el group by no tiene porque estar en el select, pero lo que esta
 --en el select tiene que estar en el group by
 
