@@ -1,0 +1,109 @@
+
+drop table if exists empresas cascade;
+
+
+create table empresas (
+
+
+cif				varchar(9),
+nombre			varchar(150) not null,
+direccion		varchar(300),
+telefono		varchar(9),
+
+
+constraint pk_empresas primary key (cif)
+); 
+
+
+drop table if exists alumno cascade;
+
+create table alumno (
+
+dni				varchar(9),
+nombre			varchar(150) not null,
+direccion		varchar(300) not null,
+telefono		varchar(9) unique, 
+edad			int2,
+cif				varchar(9),
+
+ constraint pk_alumno primary key (dni)
+);
+
+drop table if exists alumnos_asisten cascade;
+
+
+create table alumnos_asisten(
+
+
+dni				varchar(9),
+n_concreto		int,
+
+ constraint pk_alumnos_asisten primary key (dni,n_concreto)
+);
+
+
+drop table if exists cursos cascade;
+
+create table cursos (
+
+n_concreto		int,
+fecha_inicio	date not null,
+fecha_fin		date not null,
+dni_profesor	varchar(9),
+cod_curso		int,
+
+
+constraint pk_cursos primary key (n_concreto), 
+constraint ck_cursos_fechas check (fecha_fin >= fecha_inicio)
+);
+
+drop table if exists profesores cascade;
+
+create table profesores(
+
+dni_profesor	varchar(9),
+nombre			varchar(150) not null,
+apellido		varchar(200) not null,
+telefono 		varchar(9) not null unique,
+direccion		varchar(300) not null,
+
+constraint pk_profesores primary key (dni_profesor)
+); 
+
+drop table if exists tipos_cursos cascade;
+
+create table tipos_cursos(
+
+cod_curso		int,
+duracion		int,
+programa		varchar(50),
+titulo			varchar(50),
+
+constraint pk_tipos_curso primary key (cod_curso),
+constraint ck_duracion_curso check (duracion > 0)
+);
+
+alter table alumno
+	add constraint fk_empresas_alumno foreign key (cif) references empresas(cif) 
+	on delete set null ;
+
+alter table alumnos_asisten
+	add constraint fk_alumnos_asisten foreign key (dni) references alumno(dni) 
+	on delete cascade,
+	add constraint fk_asisten_cursos foreign key (n_concreto)references cursos(n_concreto)
+	on delete cascade;
+
+
+alter table cursos
+	add constraint fk_profesores_cursos foreign key (dni_profesor) references profesores(dni_profesor)
+	on delete set null,
+	add constraint fk_tipos_cursos foreign key (cod_curso) references tipos_cursos(cod_curso)
+	on delete cascade; 
+
+
+
+
+
+
+
+
